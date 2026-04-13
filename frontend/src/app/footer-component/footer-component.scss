@@ -1,0 +1,110 @@
+@use '../../scss/abstract/mixins' as *;
+@use '../../scss/abstract/variable' as *;
+@use '../../scss/components/typography' as *;
+@use '../../scss/components/animations' as *;
+
+.footer {
+  width: 100%;
+  // height: 5vh;
+  background-color: $color-primary-light-1;
+  padding: 0 2%;
+  @include flex-even(column);
+  // gap: 2rem;
+  // position: absolute;
+  // bottom: 0;
+
+  &__socialMedia {
+    flex: 0 0 20%;
+    @include flex-even();
+
+    &--listItem {
+      list-style: none;
+      transition: all ease 0.3s;
+
+      &:hover {
+        transform: scale(1.06);
+      }
+    }
+
+    //Responsive phone 600px
+    @include respond(phone) {
+      flex: 0 0 30%;
+      @include flex-centre();
+      margin: 0;
+    }
+  }
+
+  &__copyright {
+    flex: 0 0 20%;
+    // padding: 0 3rem;
+    font-size: 1.3rem;
+    margin: auto;
+    color: $color-white;
+
+    //Responsive Phone 600px
+    @include respond(phone) {
+      font-size: 1rem;
+    }
+  }
+
+  .footerBrandName {
+    flex: 0 0 20%;
+    font-size: 2rem;
+    color: $color-white;
+
+    //Responsive Phone 600px
+    @include respond(phone) {
+      font-size: 1.5rem;
+    }
+  }
+}
+
+.footer-location-area {
+  width: 100%;
+  // @include flex-even();
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-top: 2.4rem;
+  gap: 2rem;
+
+  //Responsive tab-port 900px
+  @include respond(tab-port) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  //Responsive phone 600px
+  @include respond(phone) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  // background-color: aqua;
+}
+
+.footer-single-location {
+  width: 80%;
+  @include flex-centre(column);
+  gap: 1rem;
+  text-align: center;
+  margin: auto;
+  color: $color-white;
+
+  @include appearAnimation();
+
+  & > a {
+    color: $color-white;
+    text-decoration: none;
+  }
+
+  //Responsive tab-port 900px
+  @include respond(tab-port) {
+    width: 60%;
+  }
+}
+
+.footer-bottom {
+  width: 100%;
+  @include flex-sb();
+  margin: 2% auto;
+  border-top: 0.1rem solid $color-white;
+  padding: 0 1rem;
+  padding-top: 2rem;
+}

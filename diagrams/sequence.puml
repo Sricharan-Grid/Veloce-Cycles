@@ -1,0 +1,287 @@
+@startuml Veloce_Architecture_Flow
+
+' Configuration and Style settings
+skinparam style strictuml
+skinparam SequenceMessageAlignment center
+skinparam shadowing false
+skinparam MaxMessageSize 400
+
+' Define distinct, colored participants to differentiate layers
+actor "User" as U #FFD700
+box "Angular Frontend (Client)" #E3F2FD
+participant "HomePage Component" as HPFE #7c7cbc
+participant "Products Component" as PFE #7c7cbc
+participant "Product Data Service" as SFE #7c7cbc
+participant "errorHandler Helper" as EHR #7c7cbc
+end box
+
+box "Node.js Backend (API)" #E0F2F1
+participant "Controller" as CTRL #008080
+participant "Model" as M #20B2AA
+end box
+
+database "MySQL Database" as DB #FF8C00
+
+' == 1. Application Initialization (Auto-Switched Banner) ==
+
+note over  U 
+Upon the user accessing the application, the system
+automatically initializes the home component and begins
+ the auto-switching banner process to showcase the
+ different bike models. A `setInterval` is
+ established to run every 4 seconds, directly modifying a
+ Signal that the template is bound to, which ensures a smooth and  dynamic experience. 
+end note
+
+U -> HPFE : Access Veloce Application
+activate HPFE
+loop Every 4 Seconds (until navigation occurs)
+   
+   note over HPFE
+   A timer fires, triggering the next step in the loop.
+   The Angular component logic calculates the next index
+   in the image array and updates the signal holding the
+   current image URL. This reactive signal update
+   immediately forces the DOM to re-render the banner with
+   the new image.
+   end note 
+
+    HPFE -> HPFE : Update backgroundImageUrl Signal
+    note over HPFE
+    The DOM re-renders to display the new hero image to the user.
+    end note
+
+    HPFE --> U : Render New Hero Image
+end
+
+' == 2. Product Catalog Retrieval (Complete flow with error handling) ==
+
+note over U
+When the user scrolls into the 'Products' section or
+clicks 'Products' in the main navigation, the main catalog
+retrieval process begins. The Angular component listens
+for this event and immediately delegates the data-fetching
+responsibility to the dedicated Product Data Service.
+
+end note 
+
+U -> HPFE : Scroll to 'Products' or Click 'Products' in Navbar
+activate PFE
+HPFE -> PFE : Activate Component / Activate Route
+PFE -> SFE : getAllProducts()
+activate SFE
+
+group try [Successful API Call]
+    
+    note over SFE
+
+    The Data Service makes a specific `GET` request
+    to the `/getAllProducts` API endpoint.
+
+    end note
+
+    SFE -> CTRL : HTTP GET /api/products/getAllProducts
+    activate CTRL
+    
+    note over CTRL
+    The Express Controller receives the catalog request
+    and acts as the gatekeeper, delegating the data-level
+    operations to the Node.js Model. The controller calls
+    the `AllProducts()` method,
+    end note 
+    CTRL -> M : AllProducts()
+    activate M
+    
+    note over M
+    The Model utilizes the established database
+    connection to execute a Query in the products table. 
+    The Database engine processes this standard SQL command,
+     scans the specified table, and retrieves all relevant product rows. 
+     Once completed, the Databas sends the resulting dataset back to the Model as a structured array of objects.
+
+    end note 
+
+    M -> DB : invokes a Query to get some results
+    activate DB
+    DB --> M : Return Product Rows Array[]
+    deactivate DB
+    
+    note Over M 
+    The Model receives the raw rows and passes the entire
+    array back to the Controller function that initiated
+    the call.
+
+    end note 
+
+    M --> CTRL : Return Product Data Object
+    deactivate M
+    CTRL --> SFE : HTTP 200 (JSON Product List)
+    
+   note over SFE 
+   The Data Service successfully receives the JSON payload.
+    It then pushes this raw data back to the original Products Component. 
+    The component then uses this data to update its own reactive product signal. 
+    Since the HTML template is bound to this signal, Angular instantly iterates through the array, 
+    rendering individual bike cards and presenting the complet Veloce catalog to the user.
+   end note 
+    SFE --> PFE : Return Data Object[]
+    PFE -> PFE : Render Product Cards in DOM
+    PFE --> U : Display Bike Catalog
+    deactivate SFE
+    
+else catch [API or Server Error (e.g., DB Down)]
+  note over DB
+  The catch block activates immediately when an error
+  occurs. If the database connection fails, the MySQL
+  driver in the backend will throw an exception. The Model
+  catches this error but, unable to resolve it, re-throws
+  it to the Controller. The Controller catches this
+  server-side error and responds to the frontend with an
+  HTTP 500 (Internal Server Error) status, providing a
+  generic error message for security.
+  end note
+    DB -[#red]> CTRL : Database Connection/Query Error
+    CTRL -[#red]> SFE : HTTP 500 (Internal Server Error)
+    deactivate CTRL
+    
+    note over SFE 
+    The Angular Data Service detects the non-200 status
+    code and converts the HTTP failure into an observable
+    error. This service does not handle the error itself
+    but instead passes (re-throws) the error object to the
+    component that called it. The component receives the
+    error and delegates the final handling to the
+    specialized `errorHandler` helper function, which is
+    centralized to manage all application alerts.
+    end note 
+
+    SFE -[#red]> PFE : Throw Service Error (Observable error)
+    PFE -[#red]> EHR : Invoke errorHandler(error)
+    activate EHR
+    
+    note over EHR 
+     The centralized `errorHandler` helper receives the
+     raw error object, logs the technical details for
+     debugging, and translates it into a user-friendly
+     message. It then triggers a "Toast" service to
+     display a non-intrusive, timed alert notification at
+     the top of the user's screen.
+     end note
+    EHR -> EHR : Trigger Toast Notification
+    EHR -[#red]> U : Display Alert: "Failed to load products"
+    deactivate EHR
+end
+
+deactivate PFE
+
+' == 3. Product Quick View (Popup with specific data) ==
+
+note over U
+The user finds a bike they are interested in and clicks on
+that specific product card. Angular's event system
+captures this click, identifies which unique product ID
+was clicked and triggers the `getAllProductDetails(id)`method in the Products Component. 
+This method immediately initiates the process to display
+the detailed Quick View popup.
+end note 
+
+U -> PFE : Click on a Product Card
+activate PFE
+note over PFE
+The component logic identifies the product ID and calls
+the Data Service, passing that ID as a crucial parameter.
+end note 
+
+PFE -> SFE : getAllProductDetails(productId)
+activate SFE
+
+group try [Successful Quick View Retrieval]
+    note over SFE
+    The Data Service makes a specific `GET` request.
+    Crucially, as we established in our path-matching
+    correction earlier, the product ID is appended to the
+    URL as a path parameter. This ensures the request is REST-compliant. 
+    The Router receives this specific path request and 
+    routes it directly to the Controller's specialized function,
+     preparing it to process that unique ID
+
+    end note 
+
+
+    SFE -> CTRL : HTTP GET /api/products/getAllProductDetails/1
+    activate CTRL
+    note over CTRL
+    The Controller receives the request and
+    immediately extracts the ID from the `req.params
+    productId`. Since the ID comes as a string, the
+    controller converts it to a Number and stores it.
+
+    end note
+    CTRL -> CTRL : Extract & Convert 'req.params.productId' to Number
+    
+  note over CTRL
+  The Controller then delegates the data request to the
+  specialized Model function. It calls `getProductById()`,
+  passing the clean, numeric ID. The Model utilizes its
+  knowledge of the schema structure to execute that
+  crucial SQL query using `LEFT JOIN`s against both the
+  `productSpecifications` and `productsImages` tables,
+  which efficiently aggregates all specifications and
+  gallery images into a single result.
+  end note 
+    CTRL -> M : getProductById(1)
+    activate M
+    M -> DB : SELECT with LEFT JOIN (Specs + 4 Images)
+    activate DB
+    DB --> M : Return Unified Row Data
+    deactivate DB
+
+    note over M 
+    The Model processes the joined result set. If the bike
+    has multiple images, it collapses these into a proper
+    JSON structure, ensuring the frontend receives a clean
+    object with a gallery array. This formatted object is
+    then passed back to the Controller. The Express
+    Controller completes the round-trip by sending this
+    product detail object back to the Angular client with an HTTP 200 (OK) status code
+
+    end note 
+
+    M --> CTRL : Return Product Detail Object
+    deactivate M
+    CTRL --> SFE : HTTP 200 (JSON Product Object)
+    
+   note over SFE
+   The Data Service receives the JSON and pushes the
+   product object back to the Products Component. Having
+   successfully retrieved the data, the component
+   activates the Quick View Modal/Popup.
+   end note
+
+    SFE --> PFE : Return Product Detail Object
+    PFE -> PFE : Open Popup, Set signals, and Lock Body Scroll
+    PFE --> U : Display "Quick View" Popup
+    deactivate SFE
+    
+else catch [Detail Fetch Error]
+   
+   note over SFE 
+   If a network error occurs during the GET call, the
+   service intercepts the fault, converts it to an
+   observable error, and re-throws it. The component
+   catches this error and invokes the centralized
+   `errorHandler` helper. The  helper then triggers a
+   specific toast alert to inform the user of the problem
+   end note
+
+    SFE -[#red]> PFE : Throw Error to Component
+    PFE -[#red]> EHR : Invoke errorHandler(error)
+    activate EHR
+    EHR -> EHR : Trigger Toast Notification
+    EHR -[#red]> U : Display Alert: "Error fetching details"
+    deactivate EHR
+    deactivate CTRL
+end
+deactivate PFE
+
+@enduml

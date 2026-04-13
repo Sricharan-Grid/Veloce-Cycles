@@ -1,0 +1,56 @@
+@use '../../scss/abstract/mixins' as *;
+@use '../../scss/abstract/variable' as *;
+
+.btn {
+  padding: 1rem 2.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 10rem;
+  text-align: center;
+  @include flex-sb();
+  background-color: rgba($color-white, 0.1);
+  color: $color-primary;
+  transition: all 0.5s;
+  border: none;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: $color-primary-light-1;
+    color: $color-white;
+    // border: 0.1rem solid $color-primary;
+  }
+}
+
+.btn-circle {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 60%;
+  padding: 1rem;
+  // margin: a;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: $color-primary;
+  color: $color-primary-light-2;
+  border-radius: 1rem;
+
+  &:hover {
+    border: 0.2rem solid $color-primary;
+    color: $color-primary-light-2;
+    transform: scale(1.06);
+  }
+}
+
+.btn-secondary {
+  background-color: $color-primary-light-1;
+
+  &:hover {
+    border: 0.2rem solid $color-primary;
+  }
+}
+
+.btnIcon {
+  margin: 1%;
+}

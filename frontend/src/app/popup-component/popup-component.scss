@@ -1,0 +1,314 @@
+@use '../../scss/abstract/mixins' as *;
+@use '../../scss/abstract/variable' as *;
+@use '../../scss/components/buttons' as *;
+@use '../../scss/components/animations' as *;
+
+.bikes {
+  width: 100%;
+  height: 100vh;
+  @include flex-centre();
+  // background:
+  //   linear-gradient(
+  //     to right,
+  //     rgba($color-primary, 0.5),
+  //     rgba($color-primary, 0.5),
+  //     rgba($color-primary, 0.3),
+  //     rgba($color-primary, 0.4),
+  //     transparent 100%
+  //   ),
+  //   url('/assets/img/bikesBg.jpg');
+  background-color: rgba($color: $color-primary, $alpha: 0.4);
+  backdrop-filter: blur(1rem);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: fixed;
+  // top: 0;
+  z-index: 20;
+}
+
+.bikesDisplay {
+  width: 90%;
+  margin: auto;
+  background-color: $color-white;
+  border-radius: 1.8rem;
+  padding: 2%;
+
+  //   &__cardSlider {
+  //     width: 100%;
+  //     @include flex-centre();
+  //     overflow: auto;
+
+  //     &::-webkit-scrollbar {
+  //       display: none;
+  //     }
+  //   }
+
+  //   Action buttons
+  &__action {
+    width: 100%;
+    margin: auto;
+    @include flex-sb();
+
+    //Responsive phone 600px
+    @include respond(phone) {
+      margin: 1% auto;
+    }
+    &--heading {
+      color: $color-primary-light-1;
+    }
+
+    &--btns {
+      width: 30%;
+      @include flex-centre();
+      justify-content: flex-end;
+      gap: 2rem;
+    }
+  }
+
+  &__card {
+    flex: 1 0 100%;
+    // padding: 2rem;
+    margin: auto;
+    @include flex-even();
+    padding-right: 2rem;
+
+    //Responsive phone 600px
+    @include respond(phone) {
+      margin: auto;
+      @include flex-centre(column);
+    }
+
+    &--picker {
+      width: 10%;
+      @include flex-centre(column);
+      //Responsive phone 600px
+      @include respond(phone) {
+        width: 80%;
+        @include flex-centre();
+        margin: 0;
+      }
+    }
+
+    .product-picker-img {
+      width: 80%;
+      padding-bottom: 1rem;
+      align-items: flex-start;
+      cursor: pointer;
+      transition: all 0.5s;
+      border-radius: 1.5rem;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      //Responsive tab-port 900px
+      @include respond(tab-port) {
+        width: 100%;
+        @include flex-centre();
+        margin: 0;
+      }
+
+      //Responsive phone 600px
+      @include respond(phone) {
+        width: 20%;
+        @include flex-centre();
+        margin: 0;
+      }
+    }
+
+    &--highlightImg {
+      width: 40%;
+
+      //Responsive phone 600px
+      @include respond(phone) {
+        width: 60%;
+      }
+    }
+
+    .product-highlight-img {
+      width: 95%;
+      padding: 1rem;
+      cursor: zoom-in;
+      transition: all 0.5s;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+
+      //Responsive phone 600px
+      @include respond(phone) {
+        padding: 0;
+      }
+    }
+
+    &--specs {
+      width: 50%;
+      @include flex-centre(column);
+
+      //Responsive phone 600px
+      @include respond(phone) {
+        width: 80%;
+      }
+    }
+
+    .bikeSpecs {
+      &__name {
+        padding: 0.5rem;
+        color: $color-primary;
+
+        //Responsive tab-port 900px
+        @include respond(tab-port) {
+          font-size: 2rem;
+        }
+
+        //Responsive phone 600px
+        @include respond(phone) {
+          font-size: 1.7rem;
+        }
+      }
+
+      &__price {
+        width: 80%;
+        margin: auto;
+        @include flex-centre(column);
+        justify-content: flex-end;
+        padding: 1rem;
+        gap: 1rem;
+
+        &--actualPrice {
+          font-size: 1.5rem;
+          color: $color-red-danger;
+          align-self: flex-end;
+
+          //Responsive tab-port 900px
+          @include respond(tab-port) {
+            font-size: 1rem;
+          }
+
+          //Responsive phone 600px
+          @include respond(phone) {
+            font-size: 0.7rem;
+          }
+        }
+
+        &--discountPrice {
+          width: 100%;
+          font-size: 2.5rem;
+          align-self: flex-end;
+          color: $color-primary;
+          @include flex-sb();
+
+          //Responsive tab-port 900px
+          @include respond(tab-port) {
+            font-size: 1.7rem;
+          }
+
+          //Responsive phone 600px
+          @include respond(phone) {
+            font-size: 1rem;
+          }
+        }
+      }
+
+      &__secsHeading {
+        width: 100%;
+        margin: auto;
+        align-self: flex-start;
+
+        //Responsive tab-port 900px
+        @include respond(tab-port) {
+          font-size: 1.3rem;
+        }
+      }
+
+      &__table {
+        width: 100%;
+        margin: 2% auto;
+
+        //Responsive phone 600px
+        @include respond(phone) {
+          margin: 1% auto;
+        }
+
+        &--row {
+          flex: 0 0 48%;
+          margin: auto;
+        }
+
+        &--data {
+          padding: 0.7rem;
+          border: 0.1rem solid $color-primary-light-2;
+          border-radius: 0.4rem;
+
+          //Responsive tab-port 900px
+          @include respond(tab-port) {
+            font-size: 1.3rem;
+          }
+
+          //Responsive phone 600px
+          @include respond(phone) {
+            font-size: 1rem;
+          }
+        }
+
+        .specKey {
+          font-weight: 600;
+        }
+      }
+
+      &__buyAction {
+        width: 90%;
+        @include flex-even();
+
+        //Responsive phone 480px
+        @include respond(small-phone) {
+          width: 100%;
+        }
+
+        &--btn {
+          width: 70%;
+          color: $color-primary-light-2;
+
+          //Responsive phone 600px
+          @include respond(phone) {
+            width: 60%;
+          }
+
+          //Responsive phone 480px
+          @include respond(small-phone) {
+            width: 80%;
+            font-size: 1rem;
+            padding: 0.7rem;
+          }
+        }
+
+        &--wishlist {
+          width: 4rem;
+          height: 4rem;
+          padding: 1rem;
+
+          //Responsive phone 480px
+          @include respond(small-phone) {
+            width: 3rem;
+            height: 3rem;
+            padding: 0.7rem;
+          }
+        }
+      }
+    }
+  }
+
+  &__image {
+    width: 90%;
+    height: 75dvh;
+    @include flex-centre();
+    margin: 2% auto;
+
+    &--img {
+      width: 100%;
+      height: 100%;
+      border-radius: 1.8rem;
+    }
+  }
+}

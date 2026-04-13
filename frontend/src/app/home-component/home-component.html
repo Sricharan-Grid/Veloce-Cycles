@@ -1,0 +1,26 @@
+@if (popupStatus()) {
+  <app-popup-component />
+}
+
+@if (toastChange()) {
+  <app-toast-component />
+}
+
+@if (imagePopupStatus() || imagePopupPath()) {
+  <app-popup-component [imagePath]="imagePopupPath()" />
+}
+<section id="hero-section">
+  <app-banner-component />
+</section>
+
+<section id="product-section">
+  <app-products-component />
+</section>
+
+<section id="about-section">
+  <app-about-component />
+</section>
+
+<app-feedback-component />
+
+<app-video-testimonials-component />

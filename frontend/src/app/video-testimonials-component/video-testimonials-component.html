@@ -1,0 +1,23 @@
+<section class="videoTestimonials">
+  <!-- Heading  -->
+  <div class="videoTestimonials__headings headings">
+    <h2 class="videoTestimonials__headings--headLine heading">Happy Stories</h2>
+  </div>
+
+  <!-- Video Container -->
+  <div class="videoTestimonials__container">
+    @for (video of videosToRender(); track video.id) {
+      <video
+        class="videoTestimonials__container--video"
+        [muted]="true"
+        [loop]="true"
+        [autoplay]="true"
+        [controls]="false"
+        (click)="unmuteSelectedVideo($event)"
+        (mouseleave)="muteOnLeave($event)"
+      >
+        <source [src]="video?.videoUrl" type="video/mp4" />
+      </video>
+    }
+  </div>
+</section>

@@ -1,0 +1,65 @@
+@use '../../scss/abstract/mixins' as *;
+@use '../../scss/abstract/variable' as *;
+@use '../../scss/components/buttons' as *;
+@use '../../scss/components/animations' as *;
+
+.toastMessage {
+  width: 25%;
+  background-color: $color-white;
+  box-shadow: 0 0 0.9rem 0 $color-grey-light;
+  border-radius: 1.5rem;
+  @include flex-centre();
+  justify-content: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  top: 5%;
+  //   right: 1%;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  transition: transform 0.5s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  z-index: 100;
+  position: fixed;
+
+  &.toast-active {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  &.toast-closing {
+    transform: translateX(-50%) translateY(-150%);
+  }
+
+  &__content {
+    max-width: 80%;
+    position: relative;
+    @include flex-centre(column);
+    justify-content: flex-start;
+
+    &--heading {
+      text-align: left;
+      font-size: 1.5rem;
+      color: $color-primary;
+      align-self: flex-start;
+      padding: 0.5rem;
+    }
+
+    &--message {
+      text-align: left;
+      font-size: 1rem;
+      align-self: flex-start;
+      color: $color-primary-light-1;
+      padding: 0.5rem;
+      word-break: break-all;
+    }
+  }
+
+  //   &__close {
+  //     position: absolute;
+  //     top: 1;
+  //     left: 1;
+  //     margin: 1rem;
+  //   }
+}
+
+.toastDisable {
+  display: none;
+}

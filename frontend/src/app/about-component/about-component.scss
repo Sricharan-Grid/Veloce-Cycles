@@ -1,0 +1,134 @@
+@use '../../scss/abstract/mixins' as *;
+@use '../../scss/abstract/variable' as *;
+@use '../../scss/components/buttons' as *;
+@use '../../scss/components/animations' as *;
+
+.aboutUs {
+  width: 100%;
+  @include flex-even();
+  margin: auto;
+  position: relative;
+  z-index: 10;
+  margin: 10% auto;
+  padding: 0 5%;
+
+  //Responsive Tab-land 1200px
+  @include respond(tab-land) {
+    flex-direction: column-reverse;
+  }
+}
+
+.aboutUs-left {
+  width: 59%;
+  @include translateXAnimation();
+  @include flex-centre(column);
+
+  //Responsive Tab-land 1200px
+  @include respond(tab-land) {
+    width: 100%;
+    justify-content: center;
+  }
+
+  &__desc {
+    width: 90%;
+    align-self: flex-start;
+    font-size: 1.6rem;
+    font-weight: 300;
+    color: $color-grey;
+    padding: 2rem 2.5rem;
+    text-align: justify;
+
+    //Responsive Tab-land 1200px
+    @include respond(tab-land) {
+      align-self: auto;
+    }
+
+    //Responsive tab-port 900px
+    @include respond(tab-port) {
+      font-size: 1.4rem;
+    }
+
+    //Responsive phone 600px
+    @include respond(phone) {
+      font-size: 1rem;
+      padding: 1rem 1.5rem;
+    }
+
+    //Responsive phone 480px
+    @include respond(small-phone) {
+      width: 100%;
+      padding: 1rem;
+    }
+  }
+  &__headings {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: $color-primary-light-1;
+    align-self: flex-start;
+
+    //Responsive Tab-land 1200px
+    @include respond(tab-land) {
+      align-self: auto;
+    }
+
+    //Responsive phone 480px
+    @include respond(small-phone) {
+      font-size: 1 rem;
+    }
+  }
+}
+
+.aboutUs-right {
+  width: 39%;
+
+  //Responsive Tab-land 1200px
+  @include respond(tab-land) {
+    width: 60%;
+    margin-bottom: 10%;
+  }
+
+  &__clips {
+    width: 100%;
+    margin: auto;
+    position: relative;
+    z-index: 15;
+
+    &--img1 {
+      width: 100%;
+      border-radius: 0.8rem;
+    }
+
+    &--img {
+      width: 80%;
+      @include flex-centre();
+      gap: 1rem;
+      align-items: flex-end;
+      position: absolute;
+      bottom: -10%;
+
+      //Responsive Tab-land 1200px
+      @include respond(tab-land) {
+        width: 100%;
+      }
+    }
+
+    &--img2,
+    &--img3,
+    &--img4 {
+      width: 40%;
+      border-radius: 0.8rem;
+    }
+    &--img1,
+    &--img2,
+    &--img3,
+    &--img4 {
+      transition: all 0.5s;
+      @include appearAnimation();
+
+      &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 0.9rem 0 $color-primary-light-2;
+      }
+    }
+  }
+}

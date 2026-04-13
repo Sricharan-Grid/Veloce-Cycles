@@ -1,0 +1,47 @@
+<section class="wishList">
+  <div class="wishList__left">$nbsp;</div>
+  <div class="wishList__right">
+    <div class="wishList__right--cardContainer">
+      @for (wishListProduct of fetchedProducts(); track $index) {
+        <div class="wishlistProduct">
+          <img
+            [src]="wishListProduct.productImage"
+            [alt]="wishListProduct.productName"
+            class="wishlistProduct__img"
+          />
+          <div class="wishlistProduct__details">
+            <h3 class="wishlistProduct__details--productName">
+              {{ wishListProduct.productName }}
+            </h3>
+            <del class="wishlistProduct__details--actualPrice actualprice">{{wishListProduct.productActualCost}}</del>
+            <p class="wishlistProduct__details--discountPrice"></p>
+          </div>
+          <button class="btn btn-circle">
+            <svg
+              width="15"
+              height="15"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M4.92896 4.92896L19.0711 19.0711"
+                stroke="#1B1C57"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M19.071 4.92896L4.92891 19.0711"
+                stroke="#1B1C57"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      }
+    </div>
+  </div>
+</section>

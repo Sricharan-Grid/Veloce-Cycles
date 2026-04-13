@@ -1,0 +1,66 @@
+@startuml Veloce_Database_ERD
+
+!theme plain
+hide circle
+skinparam linetype ortho
+
+' Entities
+entity "products" as p {
+  * **id** : INT <<PK>>
+  --
+  productName : VARCHAR(255)
+  productQuantity : INT
+  productActualCost : DECIMAL(10,2)
+  productDiscountPrice : DECIMAL(10,2)
+  productImage : VARCHAR(500)
+}
+
+entity "productSpecifications" as s {
+  * **productId** : INT <<FK>> <<PK>>
+  --
+  tyres : VARCHAR(100)
+  gears : VARCHAR(100)
+  brakes : VARCHAR(100)
+  weight : VARCHAR(50)
+}
+
+entity "productsImages" as i {
+  * **imageId** : INT <<PK>>
+  --
+  productId : INT <<FK>>
+  imageLink : VARCHAR(500)
+}
+
+entity "testimonials" as t {
+  * **id** : INT <<PK>>
+  --
+  productId : INT <<FK>>
+  customerName : VARCHAR(255)
+  customerLocation : VARCHAR(255)
+  reviewText : TEXT
+  rating : DECIMAL(2,1)
+  videoUrl : VARCHAR(500)
+  thumbnailUrl : VARCHAR(500)
+}
+
+entity "wishlist" as w {
+  * **id** : INT <<PK>>
+  --
+  customerId : INT <<FK>>
+  productId : INT <<FK>>
+  addedAt : TIMESTAMP
+}
+
+' Relationships
+' Existing
+p ||--|| s : "defines"
+p ||--o{ i : "contains"
+
+' New Relationships
+' A product can have many testimonials (1:N)
+p ||--o{ t : "reviewed_in"
+
+' A product can be added to many wishlists (1:N)
+p ||--o{ w : "favorited_in"
+
+@enduml

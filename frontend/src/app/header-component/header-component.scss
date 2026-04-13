@@ -1,0 +1,159 @@
+@use '../../scss/abstract/mixins' as *;
+@use '../../scss/abstract/variable' as *;
+@use '../../scss/components/buttons' as *;
+
+.header {
+  width: 100%;
+  min-height: 10vh;
+  @include flex-sb();
+  position: fixed;
+  background-color: $color-white;
+  z-index: 20;
+
+  //   Logo
+  &__logo {
+    flex: 0 0 30%;
+    @include flex-centre();
+    gap: 1rem;
+
+    //Responsive Tab-port 600px
+    @include respond(phone) {
+      width: 40%;
+    }
+
+    //Responsive phone 480px
+    @include respond(small-phone) {
+      flex: 0 0 50%;
+    }
+
+    &--brandLogo {
+      width: 15%;
+
+      //Responsive Tab-port 600px
+      @include respond(phone) {
+        width: 35%;
+      }
+    }
+
+    &--brandName {
+      color: $color-primary;
+    }
+  }
+
+  //   Navigations
+  &__navs {
+    width: 50%;
+    @include flex-even();
+
+    //Responsive Tab-port 600px
+    @include respond(phone) {
+      display: none;
+    }
+
+    &--link {
+      list-style: none;
+    }
+  }
+}
+
+//Hamburger Menu
+
+.hamburger-menu {
+  flex: 0 0 30%;
+  display: none;
+  position: relative;
+  transition: all 0.3s;
+  align-self: flex-start;
+  text-align: right;
+  margin: 0 3%;
+
+  //Responsive Tab-port 600px
+  @include respond(phone) {
+    display: block;
+  }
+
+  &__bar {
+    position: relative;
+    margin-top: 3.5rem;
+    @include flex-sb;
+
+    &,
+    &::before,
+    &::after {
+      width: 3rem;
+      height: 0.2rem;
+      background-color: $color-primary;
+      display: inline-block;
+    }
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      transition: all 0.8s;
+    }
+
+    &::before {
+      top: -0.8rem;
+    }
+    &::after {
+      top: 0.8rem;
+    }
+
+    //Toggle for Close and visible
+    &--close {
+      background-color: transparent;
+      transition: all 0.6s;
+      &::before {
+        top: 0;
+        transform: rotate(-45deg);
+      }
+
+      &::after {
+        top: 0;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  &__options {
+    width: 80%;
+    text-decoration: none;
+    @include flex-centre(column);
+    align-items: center;
+    transition: all 0.3s;
+    position: absolute;
+    left: 3;
+    background-color: $color-primary;
+    border-radius: 0.5rem;
+    padding: 3rem 1rem;
+    line-height: 3rem;
+  }
+  .list-item {
+    list-style: none;
+    transition: all 0.3s;
+  }
+
+  .hamburger-hidden {
+    display: none;
+  }
+}
+
+.hamburger-btn {
+  width: 100%;
+  border-radius: 3rem;
+  background-color: transparent;
+  color: $color-primary-light-2;
+  margin: auto;
+  text-align: center;
+  padding: 01rem;
+  font-size: 1rem;
+  margin: 1%;
+  align-items: center;
+  align-self: center;
+
+  &:hover {
+    border-radius: 0.5rem;
+  }
+}

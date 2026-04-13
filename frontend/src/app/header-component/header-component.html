@@ -1,0 +1,65 @@
+<!-- Header  -->
+
+<header class="header">
+  <div class="header__logo">
+    <img src="assets/img/veloceIcon.png" alt="Veloce-Logo" class="header__logo--brandLogo" />
+    <h2 class="header__logo--brandName">Veloce</h2>
+  </div>
+
+  <!-- Hamburger Menu  -->
+  <div class="hamburger-menu">
+    <span
+      class="hamburger-menu__bar"
+      [class.hamburger-menu__bar--close]="isHamburgerOn"
+      (click)="hamburgerOnClick()"
+      >&nbsp;</span
+    >
+
+    <!-- Visible in Smaller Screens only -->
+    <ul class="hamburger-menu__options" [class.hamburger-hidden]="!isHamburgerOn">
+      <li class="header__navs--link">
+        <button
+          class="header__navs--btn btn hamburger-btn"
+          (click)="scrollToSection('hero-section')"
+        >
+          Home
+        </button>
+      </li>
+      <li class="header__navs--link">
+        <button
+          class="header__navs--btn btn hamburger-btn"
+          (click)="scrollToSection('product-section')"
+        >
+          Products
+        </button>
+      </li>
+      <li class="header__navs--link">
+        <button
+          class="header__navs--btn btn hamburger-btn"
+          (click)="scrollToSection('about-section')"
+        >
+          About Us
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <ul class="header__navs">
+    <li class="header__navs--link">
+      <button class="header__navs--btn btn" (click)="scrollToSection('hero-section')">Home</button>
+    </li>
+    <li class="header__navs--link">
+      <button class="header__navs--btn btn" (click)="scrollToSection('product-section')">
+        Products
+      </button>
+    </li>
+    <li class="header__navs--link">
+      <button class="header__navs--btn btn" (click)="scrollToSection('about-section')">
+        About Us
+      </button>
+    </li>
+    <!-- <li class="header__navs--link">
+      <button class="header__navs--btn btn light-green-btn">Contact</button>
+    </li> -->
+  </ul>
+</header>
