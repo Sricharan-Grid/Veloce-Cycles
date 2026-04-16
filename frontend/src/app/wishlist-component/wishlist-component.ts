@@ -13,9 +13,9 @@ import { WishlistItemInterface } from '../interfaces';
 })
 export class WishlistComponent {
   constructor(
-    private dataService: DataService,
+    public dataService: DataService,
     private helperService: HelperService,
-    private productPopupService: ProductPopupService,
+    public productPopupService: ProductPopupService,
     private toastService: ToastService,
   ) {}
   wishlistProducts = signal<WishlistItemInterface[]>([]);
@@ -25,6 +25,7 @@ export class WishlistComponent {
   }
 
   getAllProducts() {
+    console.log('inside Woishlist');
     this.dataService.getWishlist()?.subscribe({
       next: (res) => {
         if (res && res.length) this?.wishlistProducts?.set(res[0]);
@@ -52,12 +53,15 @@ export class WishlistComponent {
   removeWishlist(productId: number) {
     this.dataService.removeWishlist(productId)?.subscribe({
       next: (res) => {
+        console.log(res, 'rsa');
         if (res)
           this?.toastService.triggerToast(
             'success',
             'Removed Successfully',
             'Product Removed Successfully to Wishlist',
           );
+
+        this.getAllProducts();
       },
 
       error: (err) => this?.helperService?.errorHandler(err, 'addWishlist()'),
@@ -65,6 +69,7 @@ export class WishlistComponent {
   }
 
   fetchedProducts = computed(() => {
+    console.log('Wishlist products', this.wishlistProducts());
     return this.wishlistProducts();
   });
 

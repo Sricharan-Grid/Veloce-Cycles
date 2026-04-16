@@ -6,6 +6,9 @@ export class HelperService {
   //Debug log
   debugLog: boolean = true;
 
+  //base URL
+  baseURL : string = 'http://localhost:3000'
+
   constructor(private toastService: ToastService) {}
   //   Error handling Function
   errorHandler(err: any, moduleOfOccurance: string) {

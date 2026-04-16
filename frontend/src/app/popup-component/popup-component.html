@@ -136,7 +136,10 @@
             </div>
 
             <div class="bikeSpecs__buyAction">
-              <button class="btn btn-circle btn-secondary bikeSpecs__buyAction--wishlist">
+              <button
+                class="btn btn-circle btn-secondary bikeSpecs__buyAction--wishlist"
+                (click)="addtoWishlist(productToRender().id)"
+              >
                 <svg
                   width="25"
                   height="25"

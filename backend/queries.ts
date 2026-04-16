@@ -22,5 +22,5 @@ export const queries = {
   //Get the Products in Wishlist
   getWishlist: `Select w.id , p.id as productId  , p.productName , p.productActualCost , p.productDiscountPrice , p.productImage from SricharanSchema.wishlist w LEFT JOIN  SricharanSchema.products p on w.productId = p.id`,
   //Remove the Products from Wishlist
-  removeWishlist: "DELETE FROM wishlist WHERE id = ?",
+  removeWishlist: "DELETE FROM SricharanSchema.wishlist WHERE productId = ?",
 };

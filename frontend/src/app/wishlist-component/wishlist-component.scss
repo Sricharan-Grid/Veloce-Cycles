@@ -2,42 +2,132 @@
 @use '../../scss/abstract/variable' as *;
 @use '../../scss/components/typography' as *;
 @use '../../scss/components/animations' as *;
+@use '../../scss/components/buttons' as *;
 
-.videoTestimonials {
-  width: 90%;
-  @include flex-centre(column);
-  margin: auto;
+// Variables (Matching your Veloce theme)
+// $color-white: #ffffff;
+// $color-text: #1b1c57;
+// $color-grey-light: #f7f7f7;
+// $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
 
-  &__headings {
-    align-self: flex-start;
+.wishList {
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  backdrop-filter: blur(0.1rem);
+  z-index: 20;
+  @include flex-even();
+  align-self: flex-start;
+  overflow-y: auto; // Allows scrolling if there are many products
 
-    &--headLine {
-      color: $color-primary-light-1;
+  &__left {
+    width: 80%;
+    height: 100dvh;
+
+    //Responsive Tab-port 600px
+    @include respond(phone) {
+      width: 40%;
     }
   }
+  &__right {
+    width: 20%;
+    height: 100dvh;
+    background-color: $color-white;
+    padding: 2rem;
+    box-shadow: 0 0.3rem 2rem 0.5rem rgba($color-primary, 0.2);
 
-  &__container {
-    width: 90%;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    border-radius: 1rem;
+    //Responsive Tab-port 600px
+    @include respond(phone) {
+      width: 60%;
+    }
+
+    &--cardContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+  }
+}
+
+.wishListActions {
+  width: 100%;
+  @include flex-sb();
+  margin: 2% auto;
+
+  &__heading {
+    font-size: 2rem;
+    color: $color-primary;
     padding: 1rem;
-    margin: 2%;
+  }
+}
 
-    &--video {
-      width: 100%;
-      border-radius: 1rem;
-      @include appearAnimation();
-      transition: all 0.5s;
+.wishlistProduct {
+  position: relative;
+  @include flex-centre();
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 1.2rem;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
-      &:hover,
-      &:active {
-        transform: scale(1.05);
-        border: 0.2rem solid $color-primary;
-        box-shadow: 0 0.3rem 2rem 0.5rem rgba($color-primary, 0.2);
-        gap: 2rem;
-      }
+  &:hover {
+    transform: translateY(-0.3rem);
+    box-shadow: 0 0.3rem 2rem 0.5rem rgba($color-primary, 0.2);
+  }
+
+  &__img {
+    width: 30%;
+    // height: 7rem;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  &__details {
+    flex: 1;
+
+    &--productName {
+      font-size: 1rem;
+      font-weight: 700;
+      color: $color-primary;
+      margin-bottom: 0.2rem;
+    }
+
+    .actualprice {
+      font-size: 0.8rem;
+      margin-right: 0.8rem;
+    }
+
+    &--discountPrice {
+      display: inline-block;
+      font-weight: 700;
+      color: $color-primary-light-1;
+      font-size: 0.9rem;
     }
   }
+
+  // .btn-circle {
+  //   position: absolute;
+  //   top: -5px;
+  //   right: -5px;
+  //   width: 25px;
+  //   height: 25px;
+  //   background: $color-white;
+  //   border: none;
+  //   border-radius: 50%;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: center;
+  //   cursor: pointer;
+  //   box-shadow: 0 0.3rem 2rem 0.5rem rgba($color-primary, 0.2);
+  //   transition: background 0.2s;
+
+  //   &:hover {
+  //     background: #ff4d4d; // Red on hover
+  //     svg path {
+  //       stroke: white;
+  //     }
+  //   }
+  // }
 }

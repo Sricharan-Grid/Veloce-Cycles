@@ -9,6 +9,12 @@
 @if (imagePopupStatus() || imagePopupPath()) {
   <app-popup-component [imagePath]="imagePopupPath()" />
 }
+
+@if (wishList()) {
+  <section id="wishList-section">
+    <app-wishlist-component />
+  </section>
+}
 <section id="hero-section">
   <app-banner-component />
 </section>

@@ -16,7 +16,7 @@ export class HeaderComponent {
 
   constructor(
     private helperService: HelperService,
-    private productPopupService: ProductPopupService,
+    public productPopupService: ProductPopupService,
     public scroller: ViewportScroller,
   ) {}
 

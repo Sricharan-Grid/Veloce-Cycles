@@ -1,46 +1,87 @@
 <section class="wishList">
-  <div class="wishList__left">$nbsp;</div>
+  <div class="wishList__left" (click)="this.productPopupService.disableWishList()">&nbsp;</div>
   <div class="wishList__right">
     <div class="wishList__right--cardContainer">
-      @for (wishListProduct of fetchedProducts(); track $index) {
-        <div class="wishlistProduct">
-          <img
-            [src]="wishListProduct.productImage"
-            [alt]="wishListProduct.productName"
-            class="wishlistProduct__img"
-          />
-          <div class="wishlistProduct__details">
-            <h3 class="wishlistProduct__details--productName">
-              {{ wishListProduct.productName }}
-            </h3>
-            <del class="wishlistProduct__details--actualPrice actualprice">{{wishListProduct.productActualCost}}</del>
-            <p class="wishlistProduct__details--discountPrice"></p>
-          </div>
-          <button class="btn btn-circle">
-            <svg
-              width="15"
-              height="15"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+      <div class="wishListActions">
+        <h2 class="wishListActions__heading heading">WishList</h2>
+
+        <!-- Close Button  -->
+        <button class="btn btn-circle" (click)="this.productPopupService.disableWishList()">
+          <svg
+            width="15"
+            height="15"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M4.92896 4.92896L19.0711 19.0711"
+              stroke="#1B1C57"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+            <path
+              d="M19.071 4.92896L4.92891 19.0711"
+              stroke="#1B1C57"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+
+      @if (!fetchedProducts().length) {
+        <p>No Products in WishList!</p>
+      } @else {
+        @for (wishListProduct of fetchedProducts(); track $index) {
+          <div class="wishlistProduct">
+            <img
+              [src]="wishListProduct.productImage"
+              [alt]="wishListProduct.productName"
+              class="wishlistProduct__img"
+            />
+            <div
+              class="wishlistProduct__details"
+              (click)="this.productPopupService.enablePopup(wishListProduct.productId)"
             >
-              <path
-                d="M4.92896 4.92896L19.0711 19.0711"
-                stroke="#1B1C57"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-              <path
-                d="M19.071 4.92896L4.92891 19.0711"
-                stroke="#1B1C57"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
+              <h3 class="wishlistProduct__details--productName">
+                {{ wishListProduct.productName }}
+              </h3>
+              <del class="wishlistProduct__details--actualPrice actualprice"
+                >&#8377; {{ wishListProduct.productActualCost }}</del
+              >
+              <p class="wishlistProduct__details--discountPrice">
+                &#8377; {{ wishListProduct.productDiscountPrice }}
+              </p>
+            </div>
+            <button class="btn btn-circle" (click)="removeWishlist(wishListProduct.productId)">
+              <svg
+                width="15"
+                height="15"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4.92896 4.92896L19.0711 19.0711"
+                  stroke="#1B1C57"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M19.071 4.92896L4.92891 19.0711"
+                  stroke="#1B1C57"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        }
       }
     </div>
   </div>

@@ -21,7 +21,7 @@ export class PopupComponent {
   @Input({ required: false }) imagePath?: string;
 
   constructor(
-    private dataService: DataService,
+    public dataService: DataService,
     private helperService: HelperService,
     public productPopupService: ProductPopupService,
     private toastService: ToastService,
@@ -139,5 +139,35 @@ export class PopupComponent {
       'Hurray! Your Order is Confirmed',
       `Get Ready to Ride Your ${productName}...`,
     );
+  }
+
+  addtoWishlist(productId: number) {
+    this.dataService.addWishlist(productId).subscribe({
+      next: (response) => {
+        if (response[0]?.affectedRows) {
+          this.toastService.triggerToast(
+            'success',
+            'Added to Wishlist!',
+            'Product Is Added Successfully to the Wishlist!',
+          );
+        } else if (!response[0]?.affectedRows) {
+          this.toastService.triggerToast(
+            'info',
+            'Product Already Added to Wishlist!',
+            'Kindly Check your Wishlist!',
+          );
+        } else {
+          this.toastService.triggerToast(
+            'failed',
+            'Product Not Added to Wishlist!',
+            'Please Try Again Later!',
+          );
+        }
+      },
+      error: (err) => {
+        console.error('Database insertion failed', err);
+        this.helperService.errorHandler(err, 'onHeartClick');
+      },
+    });
   }
 }

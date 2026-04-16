@@ -16,7 +16,7 @@ export class DataService {
         console.log(`Entered inside getAllProducts() Function`);
       }
 
-      return this?.http?.get<any>('http://localhost:3000/api/products/getAllProducts');
+      return this?.http?.get<any>(`${this.helperService?.baseURL}/api/products/getAllProducts`);
     } catch (err) {
       // this?.helperService?.errorHandler(err, 'getAllProducts()');
       throw err;
@@ -30,7 +30,7 @@ export class DataService {
         console.log(`Entered inside getAllProductDetails() Function`);
       }
       return this?.http?.get<any>(
-        `http://localhost:3000/api/products/getAllProductDetails/${productId}`,
+        `${this.helperService?.baseURL}/api/products/getAllProductDetails/${productId}`,
       );
     } catch (err) {
       // this?.helperService?.errorHandler(err, 'getAllProductDetails()');
@@ -44,7 +44,7 @@ export class DataService {
       if (this.helperService?.debugLog) {
         console.log(`Entered inside getAllTestimonials() Function`);
       }
-      return this?.http?.get<any>(`http://localhost:3000/api/products/getAllTestimonials`);
+      return this?.http?.get<any>(`${this.helperService?.baseURL}/api/products/getAllTestimonials`);
     } catch (err) {
       // this?.helperService?.errorHandler(err, 'getAllTestimonials()');
       throw err;
@@ -57,9 +57,9 @@ export class DataService {
       if (this.helperService?.debugLog) {
         console.log(`Entered inside getWishlist() Function`);
       }
-      return this?.http?.get<any>(`http://localhost:3000/api/products/getWishlist`);
+      let res = this?.http?.get<any>(`${this.helperService?.baseURL}/api/products/getWishlist`);
+      return res;
     } catch (err) {
-      // this?.helperService?.errorHandler(err, 'getAllTestimonials()');
       throw err;
     }
   }
@@ -71,7 +71,7 @@ export class DataService {
         console.log(`Entered inside removeWishlist() Function`);
       }
       return this?.http?.delete<any>(
-        `http://localhost:3000/api/products/removeWishlist/${productId}`,
+        `${this.helperService?.baseURL}/api/products/removeWishlist/${productId}`,
       );
     } catch (err) {
       // this?.helperService?.errorHandler(err, 'getAllTestimonials()');
@@ -80,12 +80,13 @@ export class DataService {
   }
 
   //   Getting All the Products in Wishlist
-  addWishlist(payload: any) {
+  addWishlist(productId: number) {
     try {
       if (this.helperService?.debugLog) {
-        console.log(`Entered inside addWishlist() Function`);
+        console.log(`Entered inside addWishlist() Function productId : ${productId}`);
       }
-      return this?.http?.post<any>(`http://localhost:3000/api/products/addWishlist`, payload);
+      const payload = { 'productId': productId };
+      return this.http.post<any>(`${this.helperService?.baseURL}/api/products/addWishlist`, payload);
     } catch (err) {
       // this?.helperService?.errorHandler(err, 'getAllTestimonials()');
       throw err;
