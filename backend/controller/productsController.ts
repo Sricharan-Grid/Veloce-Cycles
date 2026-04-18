@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { productsModel } from "../models/productsModel";
 import { debugLog } from "../config/config";
+const { decryptPayload } = require("../helper/helper");
 
 // Getting All Products
 export const getAllProducts = async (req: Request, res: Response) => {
@@ -26,8 +27,7 @@ export const getAllProductsDetails = async (req: Request, res: Response) => {
         `productController : entered Inside getAllProductsDetails() \n req : ${req}`,
       );
     }
-
-    const productId: number = Number(req?.params?.productId);
+    const productId: number = Number(req?.params.productId);
     console.log(productId);
 
     const products = await productsModel.getAllProductDetails(productId);
@@ -65,10 +65,10 @@ export const addWishlist = async (req: Request, res: Response) => {
       );
     }
 
-    if (req?.body?.productId) {
-      const wishlistAdded = await productsModel.addWishlist(
-        Number(req.body.productId),
-      );
+    if (req) {
+      //productId
+      const productId = decryptPayload(req?.body?.productId);
+      const wishlistAdded = await productsModel.addWishlist(Number(productId));
       res.status(201).json(wishlistAdded);
     } else {
       res.status(400).json({
@@ -111,6 +111,7 @@ export const removeWishlist = async (req: Request, res: Response) => {
 
     const productId: number = Number(req?.params?.productId);
     console.log("productID", productId);
+    
 
     if (productId) {
       const wishlistRemoved = await productsModel.removeWishlist(productId);

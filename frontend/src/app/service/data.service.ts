@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HelperService } from './helper.service';
+import { EncryptService } from './enviroinment.service';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
   constructor(
     private http: HttpClient,
     private helperService: HelperService,
+    private encryptService: EncryptService,
   ) {}
 
   //   Getting All the Products
@@ -70,6 +72,8 @@ export class DataService {
       if (this.helperService?.debugLog) {
         console.log(`Entered inside removeWishlist() Function`);
       }
+
+      
       return this?.http?.delete<any>(
         `${this.helperService?.baseURL}/api/products/removeWishlist/${productId}`,
       );
@@ -85,8 +89,14 @@ export class DataService {
       if (this.helperService?.debugLog) {
         console.log(`Entered inside addWishlist() Function productId : ${productId}`);
       }
-      const payload = { 'productId': productId };
-      return this.http.post<any>(`${this.helperService?.baseURL}/api/products/addWishlist`, payload);
+
+      const encryptedProductID = this.encryptService.encryptPayload(productId);
+
+      const payload = { productId: encryptedProductID };
+      return this.http.post<any>(
+        `${this.helperService?.baseURL}/api/products/addWishlist`,
+        payload,
+      );
     } catch (err) {
       // this?.helperService?.errorHandler(err, 'getAllTestimonials()');
       throw err;
